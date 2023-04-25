@@ -11,7 +11,6 @@ function showPort() {
 }
 
 app.use(express.json())
-
 app.use(router)
 
 app.listen(port, showPort)

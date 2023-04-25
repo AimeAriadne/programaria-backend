@@ -33,6 +33,19 @@ const womenInTech = [
   },
 ]
 
+function findWoman(request) {
+  return womenInTech.find(woman => woman.id === request.params.id) 
+}
+
+export function showWoman(request, response) {
+  const foundWoman = findWoman(request)
+  if (foundWoman) {
+    response.json(foundWoman)
+  } else {
+    response.status(404).json('Woman not found')
+  }
+}
+
 export function showWomen(request, response) {
   response.json(womenInTech)
 }
@@ -44,15 +57,15 @@ export function createWoman(request, response) {
     image: request.body.image,
     bio: request.body.bio,
   }
+
   womenInTech.push(newWoman)
+  
   response.json(womenInTech)
 }
 
-function findWoman(request) {
-  return womenInTech.find(woman => woman.id === request.params.id) 
-}
 export function editWoman(request, response) {
   const editedWoman = findWoman(request)
+
   if (editedWoman) {
     if (request.body.name) {
       editedWoman.name = request.body.name
@@ -64,19 +77,18 @@ export function editWoman(request, response) {
       editedWoman.bio = request.body.bio
     }
     response.json(womenInTech)
-  }
-  else {
+  } else {
     response.status(404).json('Woman not found')
   }
 }
 
 export function deleteWoman(request, response) {
   const deletedWoman = findWoman(request)
+
   if (deletedWoman) {
     const updatedWomenInTech = womenInTech.filter(woman => woman !== deletedWoman)
     response.json(updatedWomenInTech)
-  }
-  else {
+  } else {
     response.status(404).json('Woman not found')
   }
 }
